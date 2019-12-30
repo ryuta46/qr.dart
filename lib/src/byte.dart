@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'bit_buffer.dart';
 import 'mode.dart' as qr_mode;
@@ -13,6 +14,10 @@ class QrByte {
     return QrByte._internal(charUnits);
   }
 
+  factory QrByte.fromByteData(ByteData input) {
+    return QrByte._internal(input.buffer.asUint8List().toList());
+  }
+  
   QrByte._internal(this._data);
 
   int get length => _data.length;
