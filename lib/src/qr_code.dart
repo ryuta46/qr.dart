@@ -44,6 +44,16 @@ class QrCode {
     return QrCode(typeNumber, errorCorrectLevel)..addData(data);
   }
 
+  factory QrCode.fromByteData(
+      {@required ByteData byte, @required int errorCorrectLevel}) {
+    var newData = QrByte.fromByteData(byte);
+
+    var typeNumber =
+    _calculateTypeNumberFromData(errorCorrectLevel, [newData]);
+    return QrCode(typeNumber, errorCorrectLevel)..addByteData(byte);
+  }
+
+
   static int _calculateTypeNumberFromData(
       int errorCorrectLevel, List<QrByte> dataList) {
     int typeNumber;
@@ -77,6 +87,12 @@ class QrCode {
 
   void addData(String data) {
     var newData = QrByte(data);
+    _dataList.add(newData);
+    _dataCache = null;
+  }
+
+  void addByteData(ByteData data) {
+    var newData = QrByte.fromByteData(data);
     _dataList.add(newData);
     _dataCache = null;
   }
